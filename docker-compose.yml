@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    image: alfa-credit-cabinet:1.0.0
+    ports: ["8000:8000"]
+    environment:
+      JWT_SECRET: ${JWT_SECRET:-demo-only-secret-please-override-0123456789}
+      PIPELINE_STEP_DELAY: ${PIPELINE_STEP_DELAY:-1.0}
+      TOKEN_TTL_HOURS: ${TOKEN_TTL_HOURS:-8}
+    volumes: ["creditdata:/data"]
+    restart: unless-stopped
+    read_only: true
+    tmpfs: ["/tmp"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+volumes:
+  creditdata:
